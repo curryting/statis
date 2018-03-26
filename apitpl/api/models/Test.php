@@ -22,7 +22,7 @@ class Test extends Model
         return $res;   
     }
      
-
+    // 获取地区数据
     public function account_city($province_id,$city_id,$area_id)
     {
         $w = '';
@@ -115,7 +115,7 @@ class Test extends Model
         return $new_city_area = array_values($new_city_area);
     } 
 
-
+    // 获取学校数据
     public function account_list($province_id,$city_id,$area_id)
     {
 
@@ -190,7 +190,7 @@ class Test extends Model
         return $data;
     }
 
-
+    // 获取班级数据
     public function account_class($province_id,$city_id,$area_id)
     {
 
