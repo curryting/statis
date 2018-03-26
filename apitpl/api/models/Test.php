@@ -6,6 +6,7 @@ use yii\base\Model;
 use yii\db\Query;
 use yii\db\Expression;
 use yii\db\session;
+use common\helps\functions;
 
 class Test extends Model
 {
@@ -22,7 +23,7 @@ class Test extends Model
         return $res;   
     }
      
-    // 获取地区数据
+
     public function account_city($province_id,$city_id,$area_id)
     {
         $w = '';
@@ -112,10 +113,12 @@ class Test extends Model
 
         }
 
-        return $new_city_area = array_values($new_city_area);
+        $new_city_area = array_values($new_city_area);
+
+        return  $data = functions::array_multi_sort($new_city_area,'school_avg',SORT_DESC);
     } 
 
-    // 获取学校数据
+
     public function account_list($province_id,$city_id,$area_id)
     {
 
@@ -185,12 +188,16 @@ class Test extends Model
             $data[$kk]['member_online_counts'] = $member_online_counts; 
             //关注总数
             $data[$kk]['member_focus'] = $member_focus;
+
+
         }
+        
+
 
         return $data;
     }
 
-    // 获取班级数据
+
     public function account_class($province_id,$city_id,$area_id)
     {
 
@@ -491,15 +498,15 @@ class Test extends Model
     {
         if(empty($user_id))     return ['status'=>0,'msg'=>'隐藏用户ID不能为空'];
         if(empty($user_name))   return ['status'=>0,'msg'=>'隐藏用户名不能为空'];
-        if(empty($prepwd)) 		return ['status'=>0,'msg'=>'原密码不能为空'];
+        if(empty($prepwd))      return ['status'=>0,'msg'=>'原密码不能为空'];
         if(empty($pwd))         return ['status'=>0,'msg'=>'新密码不能为空'];
-        if(empty($repwd)) 		return ['status'=>0,'msg'=>'确认新密码不能为空'];
+        if(empty($repwd))       return ['status'=>0,'msg'=>'确认新密码不能为空'];
 
         if($pwd !== $repwd)     return ['status'=>0,'msg'=>'新密码和确认新密码不一致'];
         $query = new Query();
 
         $user = $query->from('data_center_user')->where(['id'=>$user_id,'user_name'=>$user_name,'status'=>1])->one();
-        if($user['password'] !== $prepwd) 	return ['status'=>0,'msg'=>'原密码输出错误'];
+        if($user['password'] !== $prepwd)   return ['status'=>0,'msg'=>'原密码输出错误'];
         
         if(empty($user)) return ['status'=>0,'msg'=>'用户不存在'];
 
